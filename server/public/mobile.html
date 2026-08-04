@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12141a">
+<title>Director's Cut — Jolt</title>
+<style>
+  :root {
+    --bg: #12141a; --panel: #1a1d25; --line: #2a2e3a;
+    --text: #f1f3f5; --muted: #9aa3af;
+    --accent: #ffd166; --good: #06d6a0; --bad: #ef476f;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; min-height: 100vh; padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; gap: 14px;
+    background: var(--bg); color: var(--text);
+    font: 400 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 { margin: 0; font-size: 17px; font-weight: 600; }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 999px; background: #23262f;
+    color: var(--muted); font-size: 12px; white-space: nowrap;
+  }
+  .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #6b7280; }
+  .pill[data-state="open"] { color: #d3f9d8; }
+  .pill[data-state="open"]::before { background: var(--good); }
+  .pill[data-state="connecting"]::before { background: var(--accent); animation: pulse 1.2s infinite; }
+  .pill[data-state="error"]::before, .pill[data-state="closed"]::before { background: var(--bad); }
+  @keyframes pulse { 50% { opacity: 0.25; } }
+  form { display: flex; gap: 8px; }
+  input {
+    flex: 1; min-width: 0; font: inherit; padding: 11px 12px;
+    border-radius: 10px; border: 1px solid var(--line);
+    background: #0e1015; color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.04em;
+  }
+  input:focus { outline: 2px solid rgba(255, 209, 102, 0.5); outline-offset: -1px; }
+  button {
+    font: inherit; cursor: pointer; border-radius: 10px;
+    border: 1px solid var(--line); background: #23262f; color: var(--text); padding: 11px 14px;
+  }
+  .primary { background: var(--accent); border-color: var(--accent); color: #1a1400; font-weight: 600; }
+  .stage {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; min-height: 190px; padding: 24px; text-align: center;
+    border: 1px solid var(--line); border-radius: 16px; background: var(--panel);
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+  .stage[data-armed="true"] { border-color: rgba(6, 214, 160, 0.45); }
+  .stage[data-hit="true"] { background: rgba(255, 209, 102, 0.16); border-color: var(--accent); }
+  .stage strong { font-size: 19px; font-weight: 600; }
+  .stage span { color: var(--muted); font-size: 13px; max-width: 26ch; }
+  .bolt { font-size: 46px; line-height: 1; }
+  .log {
+    margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px;
+    color: var(--muted); font-size: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .hint { margin: 0; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+  <header class="head">
+    <h1>Director's Cut</h1>
+    <span class="pill" id="pill" data-state="idle">offline</span>
+  </header>
+
+  <form id="join">
+    <input id="room" type="text" inputmode="latin" autocomplete="off" spellcheck="false"
+           autocapitalize="characters" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" aria-label="Room code">
+    <button class="primary" type="submit" id="connect">Pair</button>
+  </form>
+  <p class="hint" id="hint">Type the room code shown in the extension popup.</p>
+
+  <div class="stage" id="stage" data-armed="false" role="status" aria-live="polite">
+    <div class="bolt" id="bolt">⚡</div>
+    <strong id="stage-title">Tap to arm vibration</strong>
+    <span id="stage-note">Browsers only allow vibration after you touch the page once.</span>
+  </div>
+
+  <ul class="log" id="log"></ul>
+
+  <script src="jolt.js"></script>
+</body>
+</html>

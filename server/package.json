@@ -1,0 +1,21 @@
+{
+  "name": "directors-cut-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Signalling rendezvous + haptic bridge for the Director's Cut extension.",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check rooms.js"
+  },
+  "dependencies": {
+    "ws": "8.18.0"
+  },
+  "optionalDependencies": {
+    "socket.io": "4.8.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,20 @@
+# Dependencies — reinstalled from package-lock.json
+node_modules/
+
+# Local configuration and secrets (TURN credentials, ports)
+.env
+.env.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor state
+.vscode/
+.idea/
+*.swp

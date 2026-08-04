@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Director's Cut: Interactive Movie Night",
+  "short_name": "Director's Cut",
+  "version": "1.0.0",
+  "description": "Watch together: sub-second video sync plus a shared sketchpad, emoji missiles and haptic jolts over WebRTC.",
+  "minimum_chrome_version": "116",
+  "permissions": ["storage", "activeTab", "scripting", "alarms"],
+  "optional_host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Director's Cut"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": [
+        "lib/protocol.js",
+        "lib/id.js",
+        "content/rtc.js",
+        "content/sketchpad.js",
+        "content/emoji.js",
+        "content/overlay.js",
+        "content/video-sync.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/overlay.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

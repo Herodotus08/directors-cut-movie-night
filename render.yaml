@@ -1,0 +1,23 @@
+# Render blueprint — one free web service is enough: this process only brokers
+# handshakes, so it is idle for the whole film.
+#
+#   1. push this repo to GitHub
+#   2. Render → New → Blueprint → pick the repo
+#   3. copy the service URL and put wss://<host>/signal in the extension's
+#      Advanced → Signaling server field (wss, not ws: the extension page is
+#      https and a plain ws:// socket would be blocked as mixed content)
+services:
+  - type: web
+    name: directors-cut-signal
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci --omit=dev
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Whole-process ceiling. Rooms are capped separately in rooms.js.
+      - key: MAX_CLIENTS
+        value: "200"

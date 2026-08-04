@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Director's Cut</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <h1>Director's Cut</h1>
+    <span class="pill" id="pill" data-state="idle">offline</span>
+  </header>
+
+  <!-- No session: create or join -->
+  <section id="setup">
+    <button class="primary" id="create">Start a movie night</button>
+    <div class="or"><span>or join a room</span></div>
+    <form id="join-form" class="row">
+      <input id="room-input" type="text" inputmode="latin" autocomplete="off"
+             spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX"
+             aria-label="Room code">
+      <button class="ghost" type="submit">Join</button>
+    </form>
+    <p class="hint" id="setup-hint">Everyone needs the same room code.</p>
+  </section>
+
+  <!-- Live session -->
+  <section id="live" hidden>
+    <div class="room">
+      <label for="room-code">Room code</label>
+      <div class="row">
+        <input id="room-code" type="text" readonly>
+        <button class="ghost" id="copy" title="Copy room code">Copy</button>
+      </div>
+    </div>
+
+    <dl class="stats">
+      <div><dt>Watching</dt><dd id="stat-peer">—</dd></div>
+      <div><dt>Link</dt><dd id="stat-link">—</dd></div>
+      <div><dt>Delta</dt><dd id="stat-drift">—</dd></div>
+    </dl>
+
+    <div class="tools">
+      <button class="tool" id="brush" data-on="false">✏️ Sketch</button>
+      <button class="tool" id="toolbar" data-on="true">👁️ Toolbar</button>
+      <button class="tool jolt" id="jolt">⚡ Jolt</button>
+    </div>
+
+    <div class="brush-row">
+      <span class="swatches" id="swatches"></span>
+      <input class="range" id="width" type="range" min="2" max="18" step="1"
+             aria-label="Brush size">
+    </div>
+
+    <div class="emoji-grid" id="emoji"></div>
+
+    <button class="danger" id="stop">End session</button>
+  </section>
+
+  <details id="advanced">
+    <summary>Advanced</summary>
+    <label class="field">
+      <span>Signaling server</span>
+      <input id="signal-url" type="text" spellcheck="false">
+    </label>
+    <label class="field">
+      <span>Haptic bridge</span>
+      <input id="bridge-url" type="text" spellcheck="false">
+    </label>
+    <label class="check">
+      <input id="bridge-enabled" type="checkbox">
+      <span>Send jolts to paired phones</span>
+    </label>
+    <!-- STUN alone fails when both people are behind a strict NAT; a TURN relay
+         is the fallback for long-distance rooms. It only carries these JSON
+         frames, never the video. -->
+    <label class="field">
+      <span>TURN relay <small>(for strict networks)</small></span>
+      <input id="turn-url" type="text" spellcheck="false"
+             placeholder="turn:host:3478, turns:host:5349">
+    </label>
+    <label class="field">
+      <span>TURN username</span>
+      <input id="turn-username" type="text" spellcheck="false" autocomplete="off">
+    </label>
+    <label class="field">
+      <span>TURN password</span>
+      <input id="turn-credential" type="password" autocomplete="off">
+    </label>
+    <button class="ghost wide" id="grant">Re-scan this tab</button>
+    <p class="hint" id="advanced-hint"></p>
+  </details>
+
+  <p class="err" id="err" hidden></p>
+
+  <script src="../lib/protocol.js"></script>
+  <script src="../lib/id.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
