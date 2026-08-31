@@ -1,5 +1,7 @@
 # Director's Cut: Interactive Movie Night
 
+https://github.com/user-attachments/assets/4befddb9-3ed5-49cd-b180-fa5a5f7333ec
+
 A Manifest V3 browser extension that turns separate streaming tabs — up to eight
 of them, in as many countries — into one shared room: sub-second playback sync, a
 shared sketchpad that draws over the video, emoji missiles that fly across every
